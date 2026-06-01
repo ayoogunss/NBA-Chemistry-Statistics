@@ -42,3 +42,12 @@ export async function fetchTeamLineups(
   if (!res.ok) throw new Error('Failed to fetch lineups');
   return res.json();
 }
+
+export async function fetchTeamLineupsForNetwork(teamId: number): Promise<TeamLineupsResponse> {
+  // For the network graph: lower threshold, higher limit, sorted by minutes
+  // (so we get the team's most-used pairings, not the highest net rating outliers)
+  const url = `${API_BASE}/teams/${teamId}/lineups/?min_minutes=200&limit=100&sort_by=minutes&order=desc`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Failed to fetch lineups');
+  return res.json();
+}
